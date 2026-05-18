@@ -33,3 +33,9 @@ git clone https://github.com/arnabsinha/ZED2i_ROS2_without_CUDA zed_capture
 cd ..
 colcon build
 ```
+## Running
+```
+cd ros2_ws
+source install/setup.bash
+ros2 launch zed_capture zed_capture.launch.py
+```
