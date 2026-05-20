@@ -39,3 +39,14 @@ cd ros2_ws
 source install/setup.bash
 ros2 launch zed_capture zed_capture.launch.py
 ```
+## Recording
+
+Open a new terminal with shift+ctrl+T
+write the following to create a rosbag file to record the sensor data.
+```
+ros2 record /stereo/left_image_raw /stereo/right_image_raw /imu/data -O foderName
+```
+If you want to record only the IMU data do the following:
+```
+ros2 record /imu/data -O foderName
+```
