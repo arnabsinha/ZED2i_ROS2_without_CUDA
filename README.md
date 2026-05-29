@@ -50,3 +50,30 @@ If you want to record only the IMU data do the following:
 ```
 ros2 record /imu/data -O foderName
 ```
+
+# Convert ROS1 bag file to ROS2 bag
+## Install conda
+Follow the documentation at [this site](https://docs.conda.io/projects/conda/en/stable/user-guide/install/linux.html)
+
+## Install converter
+```
+conda create --name bagConv
+conda activate bagConv
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+conda install -c conda-forge rosbags
+```
+## Run the converter
+```
+conda activate bagConv
+rosbags-convert --src dataset-calib-cam1_512_16.bag --dst tum_dataset-calib-cam1_512_16
+```
+Run the bag file
+```
+ros2 bag play tum_dataset-calib-cam1_512_16
+```
+Open another console with Shift+Ctrl+T
+```
+ros2 topic list
+ros2 topic echo /imu0
+```
