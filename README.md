@@ -77,3 +77,9 @@ Open another console with Shift+Ctrl+T
 ros2 topic list
 ros2 topic echo /imu0
 ```
+
+# Install ORBSLAM3 in Ubuntu24.04
+Download the "Dockerfile", provided in the codebase and run the following command
+```
+docker build -t orbslam .
+```
