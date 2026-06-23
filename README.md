@@ -83,3 +83,7 @@ Download the "Dockerfile", provided in the codebase and run the following comman
 ```
 docker build -t orbslam .
 ```
+Next to run the dockerfile,
+```
+docker compose up
+```
