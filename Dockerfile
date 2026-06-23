@@ -67,6 +67,9 @@ WORKDIR /root/ORB_SLAM3
 # build ORB-SLAM3
 RUN chmod +x build.sh && ./build.sh
 
+WORKDIR /root/ORB_SLAM3/Thirdparty/Sophus/build
+RUN make install
+
 # ----------------------------
 # ROS2 workspace (ORB-SLAM3 wrapper)
 # ----------------------------
@@ -75,16 +78,22 @@ RUN mkdir -p /root/colcon_ws/src
 
 RUN git clone https://github.com/zang09/ORB_SLAM3_ROS2.git orbslam3_ros2
 
-WORKDIR /root/colcon_ws
+RUN sed -i 's/\~\/Install\/ORB_SLAM\/ORB_SLAM3/\/root\/ORB_SLAM3/g' /root/colcon_ws/src/orbslam3_ros2/CMakeModules/FindORB_SLAM3.cmake
+
+WORKDIR /root
+RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 
 # build ROS2 package
-RUN /bin/bash -c "source /opt/ros/foxy/setup.bash && colcon build --symlink-install --packages-select orbslam3_ros2 || true"
+WORKDIR /root/colcon_ws
+SHELL ["/bin/bash", "-c"]
+RUN source /opt/ros/foxy/setup.bash && \
+    colcon build
+#RUN colcon build
 
 # ----------------------------
 # Environment setup
 # ----------------------------
-RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc && \
-    echo "source /root/colcon_ws/install/setup.bash" >> ~/.bashrc && \
+RUN echo "source /root/colcon_ws/install/setup.bash" >> ~/.bashrc && \
     echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib" >> ~/.bashrc
 
 # ----------------------------
