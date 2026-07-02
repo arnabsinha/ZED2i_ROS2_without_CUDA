@@ -78,12 +78,27 @@ ros2 topic list
 ros2 topic echo /imu0
 ```
 
-# Install ORBSLAM3 in Ubuntu24.04
+# Install ORBSLAM3 in and run TUM within Ubuntu24.04
 Download the "Dockerfile", provided in the codebase and run the following command
 ```
 docker build -t orbslam .
 ```
-Next to run the dockerfile,
+Next to run the dockerfile, at first change the "dataset" folder within the file "docker-compose.yml" at line 19
 ```
+- /home/vision/tumvi/tumvi/calibrated/512_16:/dataset
+```
+to your folder of TUM dataset. Next run this file with the following command
+```
+xhost +local:docker
 docker compose up
+```
+This should run the ORBSLAM in ROS2 environment. Now to run the dataset, do the following. Open a new terminal and run
+```
+docker exec -it adamas_orbslam3 bash
+```
+Now inside this terminal run the following commands
+```
+cd /dataset
+rosbags-convert dataset-calib-cam1_512_16.bag --dst tum_dataset-calib-cam1_512_16
+ros2 bag play tum_dataset-calib-cam1_512_16
 ```
