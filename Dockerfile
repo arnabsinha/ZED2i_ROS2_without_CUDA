@@ -81,7 +81,7 @@ RUN git clone https://github.com/zang09/ORB_SLAM3_ROS2.git orbslam3_ros2
 RUN sed -i 's/\~\/Install\/ORB_SLAM\/ORB_SLAM3/\/root\/ORB_SLAM3/g' /root/colcon_ws/src/orbslam3_ros2/CMakeModules/FindORB_SLAM3.cmake
 
 WORKDIR /root
-RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+RUN 
 
 # build ROS2 package
 WORKDIR /root/colcon_ws
@@ -93,8 +93,11 @@ RUN source /opt/ros/foxy/setup.bash && \
 # ----------------------------
 # Environment setup
 # ----------------------------
-RUN echo "source /root/colcon_ws/install/setup.bash" >> ~/.bashrc && \
-    echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib" >> ~/.bashrc
+RUN echo "export LD_LIBRARY_PATH=/root/ORB_SLAM3/lib:$LD_LIBRARY_PATH" >> ~/.bashrc && \
+    echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc && \
+    echo "source /root/colcon_ws/install/setup.bash" >> ~/.bashrc
+
+RUN pip install rosbags
 
 # ----------------------------
 # Default runtime
