@@ -16,6 +16,7 @@ services:
 
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - /home/vision/tumvi/tumvi/calibrated/512_16:/dataset
 
     working_dir: /root/colcon_ws
 
@@ -26,6 +27,5 @@ services:
       bash -c "
       export LD_LIBRARY_PATH=/root/ORB_SLAM3/lib:$LD_LIBRARY_PATH &&
       source /opt/ros/foxy/setup.bash &&
-      source /root/colcon_ws/install/local_setup.bash &&
-      ros2 run orbslam3 stereo-inertial /root/ORB_SLAM3/Vocabulary/ORBvoc.txt /root/colcon_ws/src/orbslam3_ros2/config/stereo-inertial/TUM-VI.yaml --ros-args -r /camera/left/image_raw:=/cam0/image_raw -r /camera/right/image_raw:=/cam1/image_raw -r /imu:=/imu/data "
-    
+      source /root/colcon_ws/install/setup.bash &&
+      ros2 run orbslam3 stereo-inertial /root/ORB_SLAM3/Vocabulary/ORBvoc.txt /root/colcon_ws/src/orbslam3_ros2/config/stereo-inertial/TUM-VI.yaml --ros-args -r /camera/left:=/cam0/image_raw -r /camera/right:=/cam1/image_raw -r /imu:=/imu0 "
