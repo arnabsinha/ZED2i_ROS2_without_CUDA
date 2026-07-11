@@ -5,9 +5,13 @@ services:
 
     network_mode: host
     privileged: true
+    runtime: nvidia
 
     environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
       - ROS_DOMAIN_ID=0
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
       - ROS_LOCALHOST_ONLY=0
@@ -16,7 +20,7 @@ services:
 
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - /home/vision/tumvi/tumvi/calibrated/512_16:/dataset
+      - /home/vision/Dataset:/dataset
 
     working_dir: /root/colcon_ws
 
@@ -28,4 +32,4 @@ services:
       export LD_LIBRARY_PATH=/root/ORB_SLAM3/lib:$LD_LIBRARY_PATH &&
       source /opt/ros/foxy/setup.bash &&
       source /root/colcon_ws/install/setup.bash &&
-      ros2 run orbslam3 stereo-inertial /root/ORB_SLAM3/Vocabulary/ORBvoc.txt /root/colcon_ws/src/orbslam3_ros2/config/stereo-inertial/TUM-VI.yaml --ros-args -r /camera/left:=/cam0/image_raw -r /camera/right:=/cam1/image_raw -r /imu:=/imu0 "
+      ros2 run orbslam3 stereo-inertial /root/ORB_SLAM3/Vocabulary/ORBvoc.txt /root/colcon_ws/src/orbslam3_ros2/config/stereo-inertial/adamas_VI.yaml --ros-args -r /camera/left:=/zed/zed_node/left/color/rect/image -r /camera/right:=/zed/zed_node/right/color/rect/image -r /imu:=/zed/zed_node/imu/data --ros-args -p viewer:=false --ros-args -p use_sim_time:=true"
