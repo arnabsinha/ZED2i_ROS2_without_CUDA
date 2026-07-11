@@ -1,5 +1,7 @@
 FROM osrf/ros:foxy-desktop
 
+RUN apt-get update && apt-get install -y ros-foxy-rmw-cyclonedds-cpp
+
 RUN apt-get update && apt-get install -y \
     git \
     cmake \
@@ -98,6 +100,8 @@ RUN echo "export LD_LIBRARY_PATH=/root/ORB_SLAM3/lib:$LD_LIBRARY_PATH" >> ~/.bas
     echo "source /root/colcon_ws/install/setup.bash" >> ~/.bashrc
 
 RUN pip install rosbags
+
+COPY adamas_VI.yaml /root/colcon_ws/src/orbslam3_ros2/config/stereo-inertial/
 
 # ----------------------------
 # Default runtime
