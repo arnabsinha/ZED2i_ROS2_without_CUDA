@@ -102,3 +102,8 @@ cd /dataset
 rosbags-convert dataset-calib-cam1_512_16.bag --dst tum_dataset-calib-cam1_512_16
 ros2 bag play tum_dataset-calib-cam1_512_16
 ```
+
+# To Run Jazzy bag with Foxy app
+```
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+```
